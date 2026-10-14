@@ -1,5 +1,11 @@
+#ifndef Library_h
+#define Library_h
+
+#include "Patron.h"
+#include "Transaction.h"
 #include <string>
 #include <vector>
+
 class Library {
     std::vector<Book*> books;
     std::vector<Patron> patrons;
@@ -16,3 +22,4 @@ public:
     void displayBooks() const;
     void displayPatrons() const;
 };
+#endif

@@ -1,3 +1,6 @@
+#ifndef Transaction_h
+#define Transaction_h
+
 #include <ctime>
 #include <string>
 
@@ -9,3 +12,4 @@ public:
     Transaction(int pid, std::string bt);
     void displayTransaction() const;
 };
+#endif
