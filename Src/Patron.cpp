@@ -21,10 +21,14 @@ void Patron::returnBook(Book *b) {
     bool hasBook = false;
     for (auto &book : borrowedBooks) {
         if (b == book) {
+            hasBook = true;
             b->setStatus(BookStatus::Available);
             auto deleteValue = std::find(borrowedBooks.begin(), borrowedBooks.end(), book);
             borrowedBooks.erase(deleteValue);
         }
+    }
+    if (!hasBook) {
+        throw std::runtime_error("tried to return book patron did not have");
     }
 }
 
