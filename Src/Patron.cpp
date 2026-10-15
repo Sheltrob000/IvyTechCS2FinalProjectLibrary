@@ -45,4 +45,5 @@ bool Patron::operator==(const Patron &other) const {
 
 std::ostream &operator<<(std::ostream &os, const Patron &p) {
     os << p.name << ", " << p.id << std::endl;
+    return os;
 }
