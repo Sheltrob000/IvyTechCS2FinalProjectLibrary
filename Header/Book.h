@@ -18,6 +18,7 @@ public:
     Book(std::string t, std::string a, Genre g, BookStatus s);
     virtual ~Book() = default;
 
+    std::string getTitle();
     virtual void displayInfo() const;
     void setStatus(BookStatus s);
     BookStatus getStatus() const;

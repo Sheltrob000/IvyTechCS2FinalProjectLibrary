@@ -8,6 +8,10 @@ Patron::Patron(std::string n, int i) {
     id = i;
 }
 
+int Patron::getid() {
+    return id;
+}
+
 void Patron::borrowBook(Book *b) {    
     if (b->getStatus() == BookStatus::Available) {
         b->setStatus(BookStatus::CheckedOut);

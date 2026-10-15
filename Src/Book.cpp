@@ -9,6 +9,10 @@ Book::Book(std::string t, std::string a, Genre g, BookStatus s) {
     status = s;
 }
 
+std::string Book::getTitle() {
+    return title;
+}
+
 void Book::setStatus(BookStatus s) { status = s; }
 
 BookStatus Book::getStatus() const { return status; }
