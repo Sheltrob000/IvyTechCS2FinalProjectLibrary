@@ -15,7 +15,7 @@ protected:
     Genre genre;
     BookStatus status;
 public:
-    Book(std::string t, std::string a, Genre g);
+    Book(std::string t, std::string a, Genre g, BookStatus s);
     virtual ~Book() = default;
 
     virtual void displayInfo() const;
@@ -23,6 +23,9 @@ public:
     BookStatus getStatus() const;
 
     bool operator==(const Book& other) const;
-    friend std::ostream& operator<<(std::ostream& os, const Book& b);
+    friend std::ostream &operator<<(std::ostream &os, const Book &b);
 };
+
+std::ostream &operator<<(std::ostream &os, const Genre &g);
+std::ostream &operator<<(std::ostream& os, const BookStatus& g);
 #endif
