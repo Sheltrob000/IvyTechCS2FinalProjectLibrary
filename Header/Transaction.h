@@ -11,5 +11,8 @@ class Transaction {
 public:
     Transaction(int pid, std::string bt);
     void displayTransaction() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Transaction& p);
+
 };
 #endif
