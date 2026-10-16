@@ -11,7 +11,7 @@ class Patron {
     std::vector<Book*> borrowedBooks;
 public:
     Patron(std::string n, int i);
-    Patron();
+    Patron(){};
     int getid();
     void borrowBook(Book* b);
     void returnBook(Book* b);

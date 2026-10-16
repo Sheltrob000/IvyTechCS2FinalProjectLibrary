@@ -1,14 +1,20 @@
 #include "../Header/Library.h"
-#include <filesystem>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <fstream>
 #include <unordered_map>
 
+Library::~Library() {
+    for (auto *book : books) {
+        delete book;
+    }
+    books.clear();
+}
+
 void Library::loadData() {
     // Patrons
-    std::ifstream patronFile("../SaveFiles/Patrons.txt");
+    std::ifstream patronFile("SaveFiles/Patrons.txt");
     if (!patronFile.is_open()) {
         throw std::runtime_error("Failed to open Patron.txt");
     }
@@ -30,7 +36,7 @@ void Library::loadData() {
 
 
     // Books
-    std::ifstream bookFile("../SaveFiles/Books.txt");
+    std::ifstream bookFile("SaveFiles/Books.txt");
     if (!bookFile.is_open()) {
         throw std::runtime_error("Failed to open Patron.txt");
     }
@@ -48,15 +54,15 @@ void Library::loadData() {
         std::getline(ss, bookStatus, ',');
 
         static const std::unordered_map<std::string, Genre> genreMap = {
-            {"Fiction",    Genre::Fiction},
-            {"NonFiction", Genre::NonFiction},
-            {"Mystery",    Genre::Mystery},
-            {"Science",    Genre::Science},
-            {"Biography",  Genre::Biography}
+            {" Fiction",    Genre::Fiction},
+            {" NonFiction", Genre::NonFiction},
+            {" Mystery",    Genre::Mystery},
+            {" Science",    Genre::Science},
+            {" Biography",  Genre::Biography}
 };
         static const std::unordered_map<std::string, BookStatus> statusMap = {
-            {"Available",    BookStatus::Available},
-            {"CheckedOut", BookStatus::CheckedOut}
+            {" Available",    BookStatus::Available},
+            {" CheckedOut", BookStatus::CheckedOut}
 
 };
 
@@ -66,7 +72,7 @@ void Library::loadData() {
 
 
     // Transactions
-    std::ifstream transactionfile("../SaveFiles/Transactions.txt");
+    std::ifstream transactionfile("SaveFiles/Transactions.txt");
     if (!transactionfile.is_open()) {
         throw std::runtime_error("Failed to open Transactions.txt");
     }
@@ -79,7 +85,12 @@ void Library::loadData() {
 
         std::getline(ss, patronIdStr, ',');
         std::getline(ss, booktitle, ',');
-        patronID = std::stoi(patronIdStr);
+        try {
+            patronID = std::stoi(patronIdStr);
+
+        } catch (std::invalid_argument &e) {
+           std::cout << e.what() << patronIdStr <<std::endl;
+        }
 
         transactions.push_back(Transaction(patronID, booktitle));
     }
@@ -88,7 +99,7 @@ void Library::loadData() {
 
 void Library::saveData() {
     // Patrons
-    std::ofstream patronsFile(".//SaveFiles/Patrons.txt");
+    std::ofstream patronsFile("SaveFiles/Patrons.txt");
     if (!patronsFile.is_open()) {
         throw std::runtime_error("Failed to open Patrons.txt");
     }
@@ -99,7 +110,7 @@ void Library::saveData() {
 
 
     // Books
-    std::ofstream BooksFile(".//SaveFiles/Books.txt");
+    std::ofstream BooksFile("SaveFiles/Books.txt");
     if (!BooksFile.is_open()) {
         throw std::runtime_error("Failed to open Books.txt");
     }
@@ -109,7 +120,7 @@ void Library::saveData() {
     BooksFile.close();
 
     // Transactions
-    std::ofstream transactionsFile(".//SaveFiles/Transactions.txt");
+    std::ofstream transactionsFile("SaveFiles/Transactions.txt");
     if (!transactionsFile.is_open()) {
         throw std::runtime_error("Failed to open Transactions.txt");
     }
@@ -124,20 +135,15 @@ void Library::addBook(Book *b) {
     for (auto &book : books) {
         if (book == b) {
             throw std::runtime_error("attempted to add duplicate book");
-        } else {
-            books.push_back(b);
-
         }
     }
+    books.push_back(b);
 }
 
 void Library::addPatron(const Patron &p) {
     for (auto &patron : patrons) {
         if (patron == p) {
             throw std::runtime_error("attempted to add duplicate patron");
-        } else {
-            patrons.push_back(p);
-
         }
     }
     patrons.push_back(p);

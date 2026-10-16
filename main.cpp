@@ -21,12 +21,13 @@ int main() {
     std::cout << "display books (displayB)" << std::endl;
     std::cout << "display patrons (displayP)" << std::endl;
     std::cout << "save Data (save)" << std::endl;
-    std::cout << "end program (rnd)" << std::endl;
+    std::cout << "end program (end)" << std::endl;
 
     std::cin >> input;
+    std::cin.ignore();
 
 //welcome to the jankest code I have written all year!!
-    while (input != "stop") {
+    while (input != "end") {
         if (input == "book") {
             std::string title;
             std::string author;
@@ -39,11 +40,12 @@ int main() {
                     {"Biography",  Genre::Biography}
             };
             std::cout << "what is the name of the book: ";
-            std::cin >> title;
+            std::getline(std::cin, title);
             std::cout << "what is the authors Name: ";
-            std::cin >> author;
+            std::getline(std::cin, author);
             std::cout << "what is the genre (Fiction, NonFiction, Mystery, Science, Biography): ";
             std::cin >> genre;
+            std::cin.ignore();
             try {
                 library.addBook(new Book(title, author, genreMap.at(genre), BookStatus::Available));
             } catch (std::runtime_error &e) {
@@ -54,9 +56,10 @@ int main() {
             std::string name;
             int patronID;
             std::cout << "what is the patrons name: ";
-            std::cin >> name;
+            std::getline(std::cin, name);
             std::cout << "what is the patrons Id: ";
             std::cin >> patronIdStr;
+            std::cin.ignore();
             patronID = std::stoi(patronIdStr);
             try {
                 library.addPatron(Patron(name, patronID));
@@ -71,8 +74,9 @@ int main() {
 
             std::cout << "what is the patrons Id: ";
             std::cin >> patronIdStr;
+            std::cin.ignore();
             std::cout << "what is the book title: ";
-            std::cin >> bookTitle;
+            std::getline(std::cin, bookTitle);
             patronID = std::stoi(patronIdStr);
 
             try {
@@ -86,8 +90,9 @@ int main() {
             int patronID;
             std::cout << "what is the patrons Id: ";
             std::cin >> patronIdStr;
+            std::cin.ignore();
             std::cout << "what is the book title: ";
-            std::cin >> bookTitle;
+            std::getline(std::cin, bookTitle);
             patronID = std::stoi(patronIdStr);
 
             try {
@@ -110,7 +115,19 @@ int main() {
             std::cout << "unrecognized input, please try again." << std::endl;
         }
 
+        std::cout << std::endl << std::endl;
+        std::cout << "what would you like to do?" << std::endl;
+        std::cout << "add Book (book)" << std::endl;
+        std::cout << "add Patron (patron)" << std::endl;
+        std::cout << "checkout a book (checkout)" << std::endl;
+        std::cout << "return a book (return)" << std::endl;
+        std::cout << "display books (displayB)" << std::endl;
+        std::cout << "display patrons (displayP)" << std::endl;
+        std::cout << "save Data (save)" << std::endl;
+        std::cout << "end program (end)" << std::endl;
+
         std::cin >> input;
+        std::cin.ignore();
     }    
     return 0;    
 }

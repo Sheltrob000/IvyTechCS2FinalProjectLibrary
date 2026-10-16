@@ -71,7 +71,7 @@ bool Book::operator==(const Book &other) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const Book &b) {
-    os << b.title << ", " << b.author << ", " << b.genre << ", " << b.status;
+    os << b.title << ", " << b.author << ", " << b.genre << ", " << b.status << std::endl;
     // TODO make sure this is the correct implementation!!!
         return os;
 

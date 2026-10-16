@@ -12,4 +12,5 @@ void Transaction::displayTransaction() const{
 
 std::ostream &operator<<(std::ostream &os, const Transaction &p) {
     os << p.patronId << ", " << p.bookTitle;
+    return os;
 }
