@@ -29,6 +29,7 @@ void Patron::returnBook(Book *b) {
             b->setStatus(BookStatus::Available);
             auto deleteValue = std::find(borrowedBooks.begin(), borrowedBooks.end(), book);
             borrowedBooks.erase(deleteValue);
+            return;
         }
     }
     if (!hasBook) {
@@ -38,7 +39,7 @@ void Patron::returnBook(Book *b) {
 
 void Patron::displayPatron() const {
     std::cout << name << ", " << id << ":" << std::endl;
-    for (auto &book : borrowedBooks) {
+    for (const auto &book : borrowedBooks) {
         std::cout << "   ";
         book->displayInfo();
         std::cout << std::endl;

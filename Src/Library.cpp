@@ -29,8 +29,9 @@ void Library::loadData() {
         std::getline(ss, idstring, ',');
         id = std::stoi(idstring);
 
-
-        addPatron(Patron(name, id));
+        if (name != "") {
+            addPatron(Patron(name, id));
+        }
     }
     patronFile.close();
 
@@ -55,7 +56,7 @@ void Library::loadData() {
 
         static const std::unordered_map<std::string, Genre> genreMap = {
             {" Fiction",    Genre::Fiction},
-            {" NonFiction", Genre::NonFiction},
+            {" Non-Fiction", Genre::NonFiction},
             {" Mystery",    Genre::Mystery},
             {" Science",    Genre::Science},
             {" Biography",  Genre::Biography}
@@ -65,8 +66,9 @@ void Library::loadData() {
             {" CheckedOut", BookStatus::CheckedOut}
 
 };
-
-        addBook(new Book(title, author, genreMap.at(genre), statusMap.at(bookStatus)));
+        if (title != "") {
+            addBook(new Book(title, author, genreMap.at(genre), statusMap.at(bookStatus)));
+        }
     }
     bookFile.close();
 
@@ -115,7 +117,7 @@ void Library::saveData() {
         throw std::runtime_error("Failed to open Books.txt");
     }
     for (auto &book : books) {
-        BooksFile << book;
+        BooksFile << *book;
     }
     BooksFile.close();
 
@@ -152,11 +154,11 @@ void Library::addPatron(const Patron &p) {
 void Library::checkoutBook(int patronID, std::string title) {
     bool foundPatron = false;
     bool foundBook = false;
-    Patron chosenPatron;
+    Patron *chosenPatron;
     Book *chosenBook;
     for (auto &patron : patrons) {
         if (patron.getid() == patronID) {
-            chosenPatron = patron;
+            chosenPatron = &patron;
             foundPatron = true;
         }
     }
@@ -167,7 +169,7 @@ void Library::checkoutBook(int patronID, std::string title) {
         }
     }
     if (foundBook && foundPatron) {
-        chosenPatron.borrowBook(chosenBook);
+        chosenPatron->borrowBook(chosenBook);
     } else if (foundPatron) {
         throw std::runtime_error("Id was valid, Book title was not");
     } else if (foundBook) {
@@ -180,11 +182,11 @@ void Library::checkoutBook(int patronID, std::string title) {
 void Library::returnBook(int patronID, std::string title) {
     bool foundPatron = false;
     bool foundBook = false;
-    Patron chosenPatron;
+    Patron *chosenPatron;
     Book *chosenBook;
     for (auto &patron : patrons) {
         if (patron.getid() == patronID) {
-            chosenPatron = patron;
+            chosenPatron = &patron;
             foundPatron = true;
         }
     }
@@ -195,7 +197,7 @@ void Library::returnBook(int patronID, std::string title) {
         }
     }
     if (foundBook && foundPatron) {
-        chosenPatron.returnBook(chosenBook);
+        chosenPatron->returnBook(chosenBook);
     } else if (foundPatron) {
         throw std::runtime_error("Id was valid, Book title was not");
     } else if (foundBook) {
